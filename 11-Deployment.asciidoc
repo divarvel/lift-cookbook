@@ -714,6 +714,63 @@ Heroku's guide to containerless deployment makes use of Maven to package your ap
 
 The way Heroku deal with comet long-poling is described at https://devcenter.heroku.com/articles/request-timeout[https://devcenter.heroku.com/articles/request-timeout].
 
+//////////////////////////////////////////
+
+
+
+
+
+
+//////////////////////////////////////////
+
+[[clevercloud]]
+Deploying on Clever-Cloud
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Problem
+^^^^^^^
+
+You want to deploy your Lift application on http://clever-cloud.com[Clever Cloud].
+
+Solution
+^^^^^^^^
+
+In the http://console.clever-cloud.com[Clever Cloud console], create a new
+application of type "Java + war/ear".
+A git deployment endpoint will be created.
+
+If you need a database, create it now in the console.
+
+Add the database credentials to your Lift application, then package your Lift
+application as a WAR file.
+
+Create a new git repository (or an orphan branch) and put the WAR file in it.
+Create `cc_conf.json`:
+
+[source, javascript]
+-----------------------------------------
+{
+   "deploy":{
+	   "container": "glassfish3",
+		"war" : ["<yourfile.war>"]
+	}
+}
+-----------------------------------------
+
+Many containers are available, choose your favorite. GlassFish works well.
+
+Add the git deployment endpoint as a remote to your git repository and push to
+master.
+
+That's all!
+
+Discussion
+^^^^^^^^^^
+
+Clever Cloud provides auto-scaling, the application can scale out to several
+servers automatically. Session affinity is preserved and long polling is also
+correctly handled, so it should be fully transparent.
+
 /////////////////////////////////////////
 
 
